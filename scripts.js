@@ -255,3 +255,29 @@ function btnClose() {
         hideLoading();
     },500);
 }
+
+async function handleSearch() {
+    const searchText = document.getElementById("search-input").value;
+    if(searchText === "") {
+        display(allData);
+        return;
+    }
+
+    showLoading();
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
+    const data = await res.json();
+    hideLoading();
+
+    if (data.data && data.data.length > 0){
+        display(data.data);
+        totalNum.innerText = `${data.data.length} Issues`;
+    } 
+    else{
+        dataContainer.innerHTML = `
+        <div class=" w-2/3 md:w-1/3 mx-auto col-span-full text-center  p-10 shadow-md rounded-sm bg-gray-50">
+              <p class="text-center text-lg font-bold col-span-full  text-gray-600">No issues found!</p>
+        </div>`;
+        
+        totalNum.innerText =`0 Issues`;
+    }
+}
