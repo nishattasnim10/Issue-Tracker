@@ -198,12 +198,12 @@ function handleBtnColor(activeBtn) {
     const allButtons= [btnAll, btnOpenElement, btnCloseElement];
 
     allButtons.forEach(btn => {
-        btn.classList.remove("bg-[#4A00FF]","text-white");
+        btn.classList.remove("bg-[#4A00FF]", "hover:bg-blue-800", "text-white");
         btn.classList.add("bg-white","text-gray-400","border","border-gray-400");
     });
  
     activeBtn.classList.remove("text-gray-400","bg-white","border","border-gray-400");
-    activeBtn.classList.add("bg-[#4A00FF]","text-white");
+    activeBtn.classList.add("bg-[#4A00FF]", "text-white", "hover:bg-blue-800");
     
 }
 
