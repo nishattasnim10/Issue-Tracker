@@ -28,6 +28,11 @@ function hideLoading(){
 }
 // load all data
 const dataContainer= document.getElementById("data-container")
+// modal
+const issueDetailsModal = document.getElementById("issue-details-modal")
+// const labelDetails = labelsHTML
+
+
 let allData= [];
 async function loadDataAll() {
     showLoading();
@@ -94,7 +99,7 @@ async function loadDataAll() {
          cardDiv.innerHTML=`
          
                 
-                <div class="card-body">
+                <div class="card-body" onclick="openDetailsModal(${element.id})">
                     <div class="flex justify-between"><img class="card-title" src="${statusImage}">
                         <div class="badge px-4 ${priorityColor} rounded-xl">${element.priority}</div>
                     </div>
@@ -120,6 +125,63 @@ async function loadDataAll() {
           dataContainer.appendChild(cardDiv); 
     });
 
+
+}
+// open modal
+async function openDetailsModal(elementId){
+    // console.log(elementId);
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${elementId}`)
+    const data= await res.json();
+    const issueDetails = data.data
+    // console.log(issueDetails);
+
+    document.getElementById('modal-title').innerText= issueDetails.title;
+    document.getElementById('modal-author').innerText=`Opened by ${issueDetails.author}`;
+    document.getElementById('modal-date').innerText= new Date(issueDetails.createdAt).toLocaleDateString();
+    document.getElementById('modal-description').innerText= issueDetails.description;
+    document.getElementById('modal-assignee').innerText= issueDetails.assignee || "Not Found!";
+    document.getElementById('modal-priority').innerText= issueDetails.priority;
+
+    // status
+    const statusBadge = document.getElementById('modal-status');
+    statusBadge.innerText = issueDetails.status=== 'open' ? 'Opened' : 'Closed';
+    statusBadge.className = issueDetails.status=== 'open'
+        ? 'bg-green-100 text-green-600 px-3 py-1 rounded-full font-medium'
+        : 'bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-medium';
+
+    // lables
+    const modalLabelsHTML = issueDetails.labels.map(label => {
+        if(label.toLowerCase()=== 'bug'){
+            return `<div class="px-2 bg-red-50 text-red-500 rounded-xl border border-red-700 text-[8px] font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-bug"></i> BUG
+                    </div>`;
+        }else if(label.toLowerCase() === 'help wanted'){
+            return `<div class="px-2 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-700 text-[9px] font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-life-ring"></i> HELP WANTED
+                    </div>`;
+        }else if(label.toLowerCase() === 'enhancement'){
+            return `<div class="px-2 bg-green-50 text-green-600 rounded-xl border border-green-700 text-[8px] font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> ENHANCEMENT
+                    </div>`;
+        }else if(label.toLowerCase() === 'good first issue'){
+            return `<div class="px-2 bg-pink-50 text-pink-400 rounded-xl border border-pink-500 text-[8px] font-bold flex items-center gap-1">
+                         GOOD FIRST ISSUE
+                    </div>`;
+        } else{
+            return `<div class="px-2 bg-blue-50 text-blue-500 rounded-xl border border-blue-600 text-[8px] font-bold">
+                        ${label.toUpperCase()}
+                    </div>`;
+        }
+    }).join('');
+    document.getElementById('modal-labels').innerHTML = modalLabelsHTML;
+
+    // priority badge
+    const priorityBadge= document.getElementById('modal-priority');
+    if (issueDetails.priority=== 'high') priorityBadge.className = "bg-red-100 text-red-600 px-4 py-1 rounded-lg text-xs font-bold uppercase";
+    else if (issueDetails.priority=== 'medium') priorityBadge.className = "bg-yellow-100 text-yellow-600 px-4 py-1 rounded-lg text-xs font-bold uppercase";
+    else priorityBadge.className= "bg-gray-200 text-gray-600 px-4 py-1 rounded-lg text-xs font-bold uppercase";
+
+    issueDetailsModal.showModal();
 
 }
 
