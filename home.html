@@ -46,15 +46,18 @@
     <main class="w-full bg-gray-50 pt-10 ">
         <section class="main-container w-9/12 mx-auto  bg-white shadow-sm rounded-sm">
             <div id="btnTab" class="flex  p-4 mx-3 gap-2">
-                <button id="btn-all" class="bg-[#4A00FF] text-sm font-medium border border-gray-400 text-gray-400 px-5 py-1 rounded-sm w-20 ">All</button>
+                <button id="btn-all" onclick="btnnAll()" class="bg-[#4A00FF] text-sm font-medium text-white px-5 py-1 rounded-sm w-20 ">All</button>
                 <button id="btn-open" onclick="btnOpen()"
                     class="bg-white text-sm font-medium border border-gray-400 text-gray-400 px-5 py-1 rounded-sm w-20 ">Open</button>
                 <button id="btn-close" onclick="btnClose()"
-                    class="bg-white text-sm font-medium border border-gray-400 text-gray-400 px-5 py-1 rounded-sm w-20 ">Close</button>
+                    class="bg-white text-sm font-medium border border-gray-400 text-gray-400 px-5 py-1 rounded-sm w-20 ">Closed</button>
                 
             </div>
 
         </section>
+        
+
+
         <!-- <section class="flex justify-between w-9/12 mx-auto rounded-sm bg-slate-300" >
             <div class=" flex w-9/12 mx-auto   bg-white flex-1  mt-5 p-5 gap-2">
                 <div class="flex w-10 h-10 items-center justify-center px-2 rounded-full      bg-purple-100"><img class="w-8" src="./assets/Aperture.png">
@@ -116,12 +119,16 @@
             </div>
              -->
             
-            <div id="loading-spinner" class="col-span-full h-[60vh] hidden justify-center items-center">
+            <!-- <div id="loading-spinner" class="col-span-full h-[60vh] hidden justify-center items-center">
                 <span class="loading loading-dots loading-xl"></span>
             
-            </div>
+            </div> -->
         
         </section>
+        <!-- spinner -->
+        <div id="loading-spinner" class="col-span-full h-[60vh] hidden justify-center items-center">
+            <span class="loading loading-dots loading-xl"></span>
+        </div>
 
     <main>
 
