@@ -58,27 +58,34 @@ async function loadDataAll() {
         const statusImage = element.status === 'closed' 
             ? './assets/Closed- Status .png'
             : './assets/Open-Status.png';
+
         let priorityColor = "";
-        if (element.priority === 'high') priorityColor = "bg-red-100 text-red-600";
-        else if (element.priority === 'medium') priorityColor = "bg-yellow-100 text-yellow-600";
-        else priorityColor = "bg-gray-200 text-gray-500";
+        if (element.priority === 'high'){
+            priorityColor = "bg-red-100 text-red-600";}
+        else if (element.priority === 'medium'){ 
+            priorityColor = "bg-yellow-100 text-yellow-600";}
+        else{
+            priorityColor = "bg-gray-200 text-gray-500";}
 
         // labels
         const labelsHTML = element.labels.map(label=>{
-            if (label.toLowerCase()=== 'bug') {
+            if (label.toLowerCase()=== 'bug'){
                 return `<div class="px-2 bg-red-50 text-red-500 rounded-xl border border-red-700 text-[8px] font-bold flex items-center gap-1">
                             <i class="fa-solid fa-bug"></i> BUG
                         </div>`;
+
             } else if (label.toLowerCase()=== 'help wanted'){
                 return `<div class="px-2 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-700 text-[9px] font-bold flex items-center gap-1">
                             <i class="fa-solid fa-life-ring" style="color: rgb(255, 212, 59);"></i> HELP WANTED
                         </div>`;
+
             } else if (label.toLowerCase()=== 'enhancement'){
                 return `<div class="flex flex-row">
                 <div class="px-2 bg-green-50 text-green-600 rounded-xl border border-green-700 text-[8px] font-bold flex items-center gap-1">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> ENHANCEMENT
                         </div>
                         </div>`;
+
             } else if (label.toLowerCase()=== 'good first issue'){
                 return `<div class="flex flex-row">
                 <div class="px-2 bg-pink-50 text-pink-400 rounded-xl border border-pink-500 text-[8px] font-bold flex items-center gap-1">
@@ -150,24 +157,28 @@ async function openDetailsModal(elementId){
         : 'bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-medium';
 
     // lables
-    const modalLabelsHTML = issueDetails.labels.map(label => {
+    const modalLabelsHTML = issueDetails.labels.map(label =>{
         if(label.toLowerCase()=== 'bug'){
             return `<div class="px-2 bg-red-50 text-red-500 rounded-xl border border-red-700 text-[8px] font-bold flex items-center gap-1">
                         <i class="fa-solid fa-bug"></i> BUG
                     </div>`;
-        }else if(label.toLowerCase() === 'help wanted'){
+        }
+        else if(label.toLowerCase() === 'help wanted'){
             return `<div class="px-2 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-700 text-[9px] font-bold flex items-center gap-1">
-                        <i class="fa-solid fa-life-ring"></i> HELP WANTED
+                        <i class="fa-solid fa-life-ring"></i>HELP WANTED
                     </div>`;
-        }else if(label.toLowerCase() === 'enhancement'){
+        }
+        else if(label.toLowerCase() === 'enhancement'){
             return `<div class="px-2 bg-green-50 text-green-600 rounded-xl border border-green-700 text-[8px] font-bold flex items-center gap-1">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> ENHANCEMENT
                     </div>`;
-        }else if(label.toLowerCase() === 'good first issue'){
+        }
+        else if(label.toLowerCase() === 'good first issue'){
             return `<div class="px-2 bg-pink-50 text-pink-400 rounded-xl border border-pink-500 text-[8px] font-bold flex items-center gap-1">
                          GOOD FIRST ISSUE
                     </div>`;
-        } else{
+        } 
+        else{
             return `<div class="px-2 bg-blue-50 text-blue-500 rounded-xl border border-blue-600 text-[8px] font-bold">
                         ${label.toUpperCase()}
                     </div>`;
@@ -194,10 +205,10 @@ const btnAll = document.getElementById("btn-all");
 const btnOpenElement = document.getElementById("btn-open");
 const btnCloseElement = document.getElementById("btn-close");
 
-function handleBtnColor(activeBtn) {
+function handleBtnColor(activeBtn){
     const allButtons= [btnAll, btnOpenElement, btnCloseElement];
 
-    allButtons.forEach(btn => {
+    allButtons.forEach(btn =>{
         btn.classList.remove("bg-[#4A00FF]", "hover:bg-blue-800", "text-white");
         btn.classList.add("bg-white","text-gray-400","border","border-gray-400");
     });
@@ -207,13 +218,10 @@ function handleBtnColor(activeBtn) {
     
 }
 
-function btnnAll() {
+function btnnAll(){
     totalNum.innerText ="50 Issues";
     handleBtnColor(btnAll);
-    // showLoading();
-    // // loadDataAll(); 
-    // display(allData);
-    // hideLoading();
+    
     showLoading();
     dataContainer.innerHTML="";
 
@@ -223,49 +231,52 @@ function btnnAll() {
     },500);
 }
 
-function btnOpen() {
-    totalNum.innerText="44 Issues";
+function btnOpen(){
+    // totalNum.innerText="44 Issues";
     handleBtnColor(btnOpenElement);
     
     const openIssues=allData.filter(item=>item.status=== 'open');
-    
-    // display(openIssues);
-    //  hideLoading();
     showLoading();
-    dataContainer.innerHTML="";
-    
-    setTimeout(()=>{
-        display(openIssues);
+    dataContainer.innerHTML = "";
+    setTimeout(() => {
         hideLoading();
-    },500);
+        display(openIssues);
+        totalNum.innerText = `${openIssues.length} Issues`;
+    }, 500);
+
 }
 
-function btnClose() {
-    totalNum.innerText ="6 Issues";
+function btnClose(){
+    // totalNum.innerText ="6 Issues";
     handleBtnColor(btnCloseElement);
     
     const closedIssues=allData.filter(item => item.status === 'closed');
     showLoading();
     dataContainer.innerHTML="";
 
-    // display(closedIssues);
-    // hideLoading();
-    setTimeout(()=>{
-        display(closedIssues);
+    setTimeout(() => {
         hideLoading();
-    },500);
-}
+        display(closedIssues);
+        totalNum.innerText = `${closedIssues.length} Issues`;
+    }, 500);
 
-async function handleSearch() {
+}
+// search 
+async function handleSearch(){
     const searchText = document.getElementById("search-input").value;
-    if(searchText === "") {
+    
+    if(searchText === ""){
         display(allData);
         return;
     }
 
+    dataContainer.innerHTML = "";
     showLoading();
+    
     const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
     const data = await res.json();
+    hideLoading();
+    setTimeout(() =>{
     hideLoading();
 
     if (data.data && data.data.length > 0){
@@ -280,4 +291,5 @@ async function handleSearch() {
         
         totalNum.innerText =`0 Issues`;
     }
+    }, 1000);
 }
